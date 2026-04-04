@@ -202,6 +202,26 @@ a { color: inherit; text-decoration: none; }
     background: var(--ink);
 }
 
+.btn-hero-ghost {
+    display: inline-block;
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 0.65rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-hero-ghost:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+}
+
 .btn-hero-primary:hover,
 .btn-hero-secondary:hover {
     background: #2a2a2a;
@@ -746,6 +766,64 @@ a { color: inherit; text-decoration: none; }
 }
 
 .legal-body a:hover { text-decoration: underline; }
+
+/* ------------------------------------------------------------------ */
+/* Modal                                                               */
+/* ------------------------------------------------------------------ */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 15, 15, 0.75);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.modal-overlay.is-open {
+    display: flex;
+}
+
+.modal-content {
+    position: relative;
+    background: var(--ink);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 720px;
+    overflow: hidden;
+}
+
+.modal-close {
+    position: absolute;
+    top: -2.5rem;
+    right: 0;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: color 0.2s;
+}
+
+.modal-close:hover { color: #fff; }
+
+.modal-video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+}
+
+.modal-video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 
 /* ------------------------------------------------------------------ */
 /* Responsive                                                          */
