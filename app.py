@@ -2,6 +2,10 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+from database import db
+db.init_db()
+db.seed_db()
+
 
 # ------------------------------------------------------------------ #
 # Routes                                                              #
