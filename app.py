@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 
@@ -16,8 +17,30 @@ def landing():
     return render_template("landing.html")
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        email = request.form.get("email", "").strip()
+        password = request.form.get("password", "")
+
+        # Validation
+        if not name:
+            return render_template("register.html", error="Name is required")
+        if not email:
+            return render_template("register.html", error="Email is required")
+        if not password or len(password) < 6:
+            return render_template("register.html", error="Password must be at least 6 characters")
+
+        # Hash password and create user
+        password_hash = generate_password_hash(password)
+        user_id = db.create_user(name, email, password_hash)
+
+        if user_id is None:
+            return render_template("register.html", error="Email already exists")
+
+        return redirect("/login")
+
     return render_template("register.html")
 
 
