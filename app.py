@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, session, redirect, url_for
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Flask, render_template, request, redirect
+from werkzeug.security import generate_password_hash
+
+app = Flask(__name__)
 
 from database import db
 from database.auth import login_required, get_current_user
