@@ -94,10 +94,10 @@ def seed_db():
         conn.close()
         return
 
-    # Create a demo user
+    # Create a demo user with hashed password "demo"
     cursor.execute(
         "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
-        ("Demo User", "demo@spendly.app", "demo_password_hash")
+        ("Demo User", "demo@spendly.app", "scrypt:32768:8:1$Df46JA8G5qv75gOF$5e9b7490421524d4982d78af2c1b2102b02703af2ce9dc7516836144ed098f7d266bed38143fa87b286d98fe74a2e8502089332d668527f70ee078d79b1c0d72")
     )
     user_id = cursor.lastrowid
 
