@@ -1,16 +1,14 @@
-from flask import Flask, render_template, request, redirect
-from werkzeug.security import generate_password_hash
+from flask import Flask, render_template, request, redirect, session, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+app.secret_key = "dev-secret-key-change-in-production"
 
 from database import db
 from database.auth import login_required, get_current_user
 
 db.init_db()
 db.seed_db()
-
-app = Flask(__name__)
-app.secret_key = "dev-secret-key-change-in-production"
 
 
 @app.context_processor
@@ -83,7 +81,7 @@ def login():
 
     if user and check_password_hash(user["password_hash"], password):
         session["user_id"] = user["id"]
-        return redirect(url_for("landing"))
+        return redirect(url_for("profile"))
 
     return render_template("login.html", error="Invalid email or password")
 
@@ -111,7 +109,23 @@ def privacy():
 @app.route("/profile")
 @login_required
 def profile():
-    return "Profile page — coming in Step 4"
+    user = {"name": "Demo User", "email": "demo@spendly.app", "member_since": "April 2026"}
+    stats = {"total_spent": "₹13,050", "transaction_count": "7", "top_category": "Bills"}
+    transactions = [
+        {"date": "18 Apr 2026", "description": "Breakfast and coffee", "category": "Food", "amount": "₹350"},
+        {"date": "17 Apr 2026", "description": "Monthly metro pass", "category": "Transport", "amount": "₹1,200"},
+        {"date": "15 Apr 2026", "description": "Electricity bill", "category": "Bills", "amount": "₹4,500"},
+        {"date": "14 Apr 2026", "description": "Vitamins", "category": "Health", "amount": "₹800"},
+        {"date": "12 Apr 2026", "description": "Weekend dinner", "category": "Food", "amount": "₹2,200"},
+    ]
+    categories = [
+        {"name": "Bills", "amount": "₹4,500", "pct": 34},
+        {"name": "Food", "amount": "₹2,550", "pct": 20},
+        {"name": "Transport", "amount": "₹1,200", "pct": 9},
+        {"name": "Shopping", "amount": "₹3,200", "pct": 25},
+        {"name": "Entertainment", "amount": "₹1,500", "pct": 11},
+    ]
+    return render_template("profile.html", user=user, stats=stats, transactions=transactions, categories=categories)
 
 
 @app.route("/expenses/add")
